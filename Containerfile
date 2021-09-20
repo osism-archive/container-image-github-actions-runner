@@ -12,6 +12,7 @@ RUN apt-get update \
         gcc \
         git \
         gosu \
+        jq \
         libc6-dev \
         lsb-release \
         make \
@@ -22,8 +23,8 @@ RUN apt-get update \
         software-properties-common \
         sudo \
         tini \
-        wget \
         uidmap \
+        wget \
     && apt-get clean -y \
     && rm -rf /var/cache/apt /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
