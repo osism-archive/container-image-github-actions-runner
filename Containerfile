@@ -17,6 +17,7 @@ RUN apt-get update \
         make \
         openssh-client \
         patch \
+        podman \
         rsync \
         software-properties-common \
         sudo \
