@@ -23,6 +23,7 @@ RUN apt-get update \
         sudo \
         tini \
         wget \
+        uidmap \
     && apt-get clean -y \
     && rm -rf /var/cache/apt /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
