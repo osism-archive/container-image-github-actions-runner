@@ -35,6 +35,7 @@ RUN useradd -m github \
 USER github
 WORKDIR /home/github
 COPY --chown=github:github files/entrypoint.sh ./entrypoint.sh
+COPY --chown=github:github files/get_token.py ./get_token.py
 
 RUN curl -LO "https://github.com/actions/runner/releases/download/v${VERSION}/actions-runner-linux-x64-${VERSION}.tar.gz" \
     && tar xzf ./*.tar.gz \
