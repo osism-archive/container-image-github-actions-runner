@@ -38,6 +38,7 @@ def getJwt(private_key, app_id):
 # get an API token to talk to the orgs API
 def getInstallationId(api_url, private_key, app_id, org):
     headers = {'Accept': 'application/vnd.github.v3+json',
+               'User-Agent': 'tibeer',
                'Authorization': 'Bearer %s' % getJwt(private_key, app_id)}
     r = requests.get("%s/app/installations" % api_url, headers=headers)
     for item in r.json():
@@ -52,6 +53,7 @@ def getInstallationId(api_url, private_key, app_id, org):
 # With the ID get the token specific for this org
 def getInstallationToken(api_url, private_key, app_id, org):
     headers = {'Accept': 'application/vnd.github.v3+json',
+               'User-Agent': 'tibeer',
                'Authorization': 'Bearer %s' % getJwt(private_key, app_id)}
     r = requests.post("%s/app/installations/%s/access_tokens" % (
                       api_url, getInstallationId(api_url,
@@ -65,6 +67,7 @@ def getInstallationToken(api_url, private_key, app_id, org):
 # Now use the token to get a runner token
 def getRunnerToken(api_url, private_key, app_id, org):
     headers = {'Accept': 'application/vnd.github.v3+json',
+               'User-Agent': 'tibeer',
                'Authorization': 'token %s' % getInstallationToken(api_url,
                                                                   private_key,
                                                                   app_id,
@@ -105,7 +108,8 @@ def main(argv):
             getHelp()
             sys.exit()
         elif opt in ("-u", "--api-url"):
-            api_url = arg
+            if arg != "":
+                api_url = arg
         elif opt in ("-k", "--api-key"):
             private_key = open(arg, 'r').read()
         elif opt in ("-i", "--app-id"):
