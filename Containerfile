@@ -1,4 +1,4 @@
-FROM ubuntu:21.04
+FROM ubuntu:20.04
 ARG VERSION=2.282.1
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -6,11 +6,11 @@ ENV TZ=UTC
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        buildah \
         ca-certificates \
         curl \
         gcc \
         git \
+        gnupg-agent \
         gosu \
         jq \
         libc6-dev \
@@ -22,7 +22,6 @@ RUN apt-get update \
         make \
         openssh-client \
         patch \
-        podman \
         python3-dev \
         python3-pip \
         python3-pip \
@@ -34,6 +33,22 @@ RUN apt-get update \
         tini \
         uidmap \
         wget \
+    && apt-get clean -y \
+    && rm -rf /var/cache/apt /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# NOTE: Buildah/Podman not yet available in Ubuntu 20.04.
+#
+#       Use of Ubuntu > 20.04 not yet possible as the official
+#       runners from GitHub are currently on Ubuntu 20.04.
+
+RUN echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list \
+    && wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/xUbuntu_20.04/Release.key -O /tmp/Release.key \
+    && apt-key add - < /tmp/Release.key \
+    && rm -f /tmp/Release.key \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        buildah \
+        podman \
     && apt-get clean -y \
     && rm -rf /var/cache/apt /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -61,6 +76,7 @@ RUN mkdir -p /opt/hostedtoolcache \
 USER github
 
 ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
+ENV RUNNER_TOOL_CACHE=/opt/hostedtoolcache
 
 EXPOSE 443
 ENTRYPOINT ["/usr/bin/tini", "--", "/home/github/entrypoint.sh"]
