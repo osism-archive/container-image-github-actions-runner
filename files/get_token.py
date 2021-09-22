@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-#
+
 # This script fetches tokens to add new self-hosted
 # GitHub action runners to organizations.
 # It requires a GitHub App to be set up upfront with
@@ -13,9 +13,8 @@
 # - Self-hosted runners > Read & write
 #
 # Example usage:
-# ./get_token.py -h
-#
-#########################################
+# python3 get_token.py -h
+
 import getopt
 import jwt
 import requests
@@ -84,7 +83,7 @@ def getHelp():
     print("  -k, --key-path    path to the RSA private key file from"
           "the GitHub app")
     print("  -u, --api-url     optional, set individual api URL like"
-          "'https://api.mygithub.org'")
+          "'https://api.github.com'")
     print("  -h, --help        display this short help and exit")
     print("")
 
@@ -94,7 +93,7 @@ def main(argv):
     try:
         opts, _args = getopt.getopt(argv, "huk:i:o:", ["help",
                                                        "api-url",
-                                                       "api-key=",
+                                                       "key-path=",
                                                        "app-id=",
                                                        "org="])
     except getopt.GetoptError:
@@ -107,7 +106,7 @@ def main(argv):
         elif opt in ("-u", "--api-url"):
             if arg != "":
                 api_url = arg
-        elif opt in ("-k", "--api-key"):
+        elif opt in ("-k", "--key-path"):
             private_key = open(arg, 'r').read()
         elif opt in ("-i", "--app-id"):
             app_id = arg
