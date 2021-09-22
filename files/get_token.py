@@ -105,7 +105,8 @@ def main(argv):
             getHelp()
             sys.exit()
         elif opt in ("-u", "--api-url"):
-            api_url = arg
+            if arg != "":
+                api_url = arg
         elif opt in ("-k", "--api-key"):
             private_key = open(arg, 'r').read()
         elif opt in ("-i", "--app-id"):
