@@ -48,6 +48,7 @@ RUN echo 'deb http://download.opensuse.org/repositories/devel:/kubic:/libcontain
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         buildah \
+        fuse-overlayfs \
         podman \
     && apt-get clean -y \
     && rm -rf /var/cache/apt /var/lib/apt/lists/* /tmp/* /var/tmp/*
