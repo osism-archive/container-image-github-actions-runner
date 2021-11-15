@@ -45,4 +45,6 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           VERSION: ${{ matrix.version }}
           REPOSITORY: osism/github-actions-runner
-        if: github.ref == 'refs/heads/main'
+        if: |
+          github.repository == 'osism/container-image-github-actions-runner' &&
+          github.ref == 'refs/heads/main'
